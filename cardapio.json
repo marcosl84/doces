@@ -1,0 +1,45 @@
+{
+    "tradicionais": {
+        "preco": 130.00,
+        "itens": [
+            "Brigadeiro",
+            "Abacaxi com Coco",
+            "Beijinho",
+            "Casadinho",
+            "Casadinho Sedução",
+            "Cajuzinho",
+            "Napolitano",
+            "Paçoca",
+            "Nesquik",
+            "Confete"
+        ]
+    },
+    "classicos": {
+        "preco": 155.00,
+        "itens": [
+            "Ninho c/ Nutella",
+            "Ferrero Rocher",
+            "Ninho com Uva",
+            "Charge",
+            "Ninho c/ Morango",
+            "Oreo",
+            "Uva Verde",
+            "Nesquik c/ Nutella"
+        ]
+    },
+    "chocolates": {
+        "preco": 165.00,
+        "itens": [
+            "Kit Kat",
+            "Prestígio",
+            "Morango c/ Chocolate",
+            "Paçoca c/ Chocolate",
+            "Uva c/ Chocolate",
+            "Ouro Branco",
+            "Confete c/ Chocolate",
+            "Sonho de Valsa",
+            "Abacaxi c/ Chocolate",
+            "Sensação"
+        ]
+    }
+}

@@ -1,0 +1,905 @@
+/* Variáveis */
+:root {
+    --rosa-claro: #fce4ec;
+    --rosa-principal: #e91e63;
+    --rosa-escuro: #c2185b;
+    --rosa-borda: #f8bbd9;
+    --branco-transparente: rgba(255, 255, 255, 0.9);
+    --sombra: 0 15px 40px rgba(255, 0, 150, 0.15);
+}
+
+/* Reset */
+* { box-sizing: border-box; }
+
+body {
+    font-family: 'Poppins', sans-serif; /* Fonte profissional para corpo */
+    font-size: 16px; /* Tamanho base para desktop */
+    background: var(--rosa-claro);
+    background-image: url('./fundo-docinhos.jp.g');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    animation: zoomBg 20s ease-in-out infinite alternate;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: var(--branco-transparente);
+    box-shadow: var(--sombra);
+}
+
+header h1 { 
+    color: var(--rosa-principal); 
+    margin: 0; 
+    font-family: 'Playfair Display', serif; /* Fonte elegante para títulos */
+    font-size: 2.5rem; /* Tamanho para desktop */
+    font-weight: 700;
+}
+
+#btn-carrinho { 
+    background: var(--rosa-principal); 
+    color: white; 
+    border: none; 
+    padding: 10px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-family: 'Poppins', sans-serif; /* Consistência */
+    font-size: 1rem;
+}
+
+.container { max-width: 1200px; margin: 20px auto; padding: 20px; }
+
+h2, h3 {
+    font-family: 'Playfair Display', serif; /* Títulos elegantes */
+    font-weight: 600;
+    color: var(--rosa-principal);
+}
+
+h2 { font-size: 2rem; } /* Desktop */
+h3 { font-size: 1.5rem; } /* Desktop */
+
+#produtos { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+
+.produto-card {
+    background: var(--branco-transparente);
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: var(--sombra);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.produto-card:hover { transform: scale(1.05); }
+
+.produto-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    margin: 0 0 10px 0;
+}
+
+.produto-card p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    margin: 0 0 10px 0;
+}
+
+.produto-card button { 
+    background: var(--rosa-principal); 
+    color: white; 
+    border: none; 
+    padding: 10px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    margin-top: 10px; 
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+}
+
+#selecao-sabores {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.sabor-checkbox {
+    position: relative;
+    background: var(--branco-transparente);
+    border: 2px solid var(--rosa-borda);
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: var(--sombra);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sabor-checkbox:hover {
+    border-color: var(--rosa-principal);
+    box-shadow: 0 8px 20px rgba(233, 30, 99, 0.3);
+    transform: translateY(-5px);
+}
+
+.sabor-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.sabor-checkbox input[type="checkbox"]:checked + label::before {
+    background: var(--rosa-principal);
+    border-color: var(--rosa-principal);
+}
+
+.sabor-checkbox label {
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+}
+
+.sabor-checkbox label::before {
+    content: '♥';
+    font-size: 20px;
+    color: var(--rosa-borda);
+    transition: color 0.3s ease;
+}
+
+.sabor-checkbox:hover label::before {
+    color: var(--rosa-principal);
+}
+
+.sabor-checkbox input[type="checkbox"]:checked + label::before {
+    color: white;
+}
+
+.modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); }
+
+.modal-conteudo { background: white; margin: 15% auto; padding: 20px; border-radius: 12px; width: 90%; max-width: 500px; }
+
+.fechar { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+
+#itens-carrinho { margin: 20px 0; }
+
+.item-carrinho { display: flex; justify-content: space-between; margin: 10px 0; }
+
+#form-cadastro input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid var(--rosa-borda); border-radius: 8px; font-family: 'Poppins', sans-serif; }
+
+#form-cadastro button { background: var(--rosa-principal); color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; cursor: pointer; font-family: 'Poppins', sans-serif; }
+
+/* Animações */
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes zoomBg { 0% { background-size: 100%; } 100% { background-size: 110%; } }
+.animar-entrada { animation: fadeInUp 1s ease-out; }
+
+/* Responsividade */
+@media (max-width: 768px) {
+    body { font-size: 14px; } /* Tamanho menor para mobile */
+    header h1 { font-size: 2rem; } /* Título menor em mobile */
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.2rem; }
+    #produtos { grid-template-columns: 1fr; }
+    .modal-conteudo { margin: 50% auto; width: 95%; }
+    #selecao-sabores {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .sabor-checkbox {
+        padding: 10px;
+        font-size: 14px;
+    }
+    .sabor-checkbox label::before {
+        font-size: 18px;
+    }
+    #form-cadastro input, #form-cadastro button { font-size: 14px; }
+}
+/* ... (restante do CSS anterior permanece igual) */
+
+/* Novos estilos para campos de cadastro */
+#form-cadastro div {
+    margin: 10px 0;
+}
+
+#form-cadastro input[type="radio"] {
+    margin-right: 5px;
+}
+
+#bairro-frete {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--rosa-borda);
+    border-radius: 8px;
+    margin-top: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Responsividade para novos campos */
+@media (max-width: 768px) {
+    #form-cadastro div {
+        font-size: 14px;
+    }
+}
+/* ... (restante do CSS permanece igual) */
+
+/* Correção para modal com scroll */
+.modal-conteudo {
+    background: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh; /* Limita altura para permitir scroll */
+    overflow-y: auto; /* Adiciona scroll vertical */
+}
+
+/* Responsividade aprimorada para modal */
+@media (max-width: 768px) {
+    .modal-conteudo {
+        margin: 10% auto;
+        width: 95%;
+        max-height: 90vh; /* Ajusta para telas menores */
+    }
+}
+
+/* Estilos avançados para inputs/selects no modal do carrinho */
+#modal-carrinho input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--rosa-borda);
+    border-radius: 12px;
+    font-size: 16px;
+    margin: 15px 0;
+    background: white;
+    color: #333;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+#modal-carrinho input:hover {
+    border-color: var(--rosa-principal);
+    box-shadow: 0 4px 10px rgba(233, 30, 99, 0.2);
+}
+
+#modal-carrinho input:focus {
+    outline: none;
+    border-color: var(--rosa-principal);
+    box-shadow: 0 0 10px rgba(233, 30, 99, 0.5);
+    transform: scale(1.02);
+}
+
+#modal-carrinho select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--rosa-borda);
+    border-radius: 12px;
+    font-size: 16px;
+    margin: 15px 0;
+    background: white;
+    color: #333;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    appearance: none;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xIDFMNiA2TDExIDEiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+#modal-carrinho select:hover {
+    border-color: var(--rosa-principal);
+    box-shadow: 0 4px 10px rgba(233, 30, 99, 0.2);
+}
+
+#modal-carrinho select:focus {
+    outline: none;
+    border-color: var(--rosa-principal);
+    box-shadow: 0 0 10px rgba(233, 30, 99, 0.5);
+    transform: scale(1.02);
+}
+
+#modal-carrinho select option {
+    padding: 10px;
+    background: white;
+    color: #333;
+}
+
+#troco-container {
+    margin: 15px 0;
+    padding: 10px;
+    border: 2px solid var(--rosa-borda);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+#troco-container select, #troco-container input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--rosa-borda);
+    border-radius: 12px;
+    font-size: 16px;
+    margin: 10px 0;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+#troco-container select:hover, #troco-container input:hover {
+    border-color: var(--rosa-principal);
+    box-shadow: 0 4px 10px rgba(233, 30, 99, 0.2);
+}
+
+#troco-container select:focus, #troco-container input:focus {
+    outline: none;
+    border-color: var(--rosa-principal);
+    box-shadow: 0 0 10px rgba(233, 30, 99, 0.5);
+    transform: scale(1.02);
+}
+
+/* Estilos avançados para textarea de observações no modal do carrinho */
+#modal-carrinho textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--rosa-borda);
+    border-radius: 12px;
+    font-size: 16px;
+    margin: 15px 0;
+    background: white;
+    color: #333;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+#modal-carrinho textarea:hover {
+    border-color: var(--rosa-principal);
+    box-shadow: 0 4px 10px rgba(233, 30, 99, 0.2);
+}
+
+#modal-carrinho textarea:focus {
+    outline: none;
+    border-color: var(--rosa-principal);
+    box-shadow: 0 0 10px rgba(233, 30, 99, 0.5);
+    transform: scale(1.02);
+}
+
+#modal-carrinho button {
+    background: var(--rosa-principal);
+    color: white;
+    border: none;
+    padding: 15px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+}
+
+#modal-carrinho button:hover {
+    background: var(--rosa-escuro);
+}
+
+/* Responsividade aprimorada para campos empilhados */
+@media (max-width: 768px) {
+    #modal-carrinho input, #modal-carrinho select, #modal-carrinho textarea {
+        font-size: 14px;
+        padding: 10px;
+        margin: 10px 0;
+    }
+    #troco-container {
+        padding: 8px;
+    }
+}
+/* ... (seu código existente continua aqui) ... */
+
+/* ============================================
+   NAVEGAÇÃO DAS PÁGINAS (Números 1, 2, 3, 4)
+   ============================================ */
+.navegacao-paginas {
+    display: flex;
+    justify-content: center;
+    gap: 40px;           /* ← Espaço entre os botões */
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.navegacao-paginas span {
+    padding: 5px 10px;   /* ← Bordas menores */
+    border-radius: 15px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;     /* ← Fonte menor */
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+}
+
+.pagina-ativa {
+    background: var(--rosa-principal);
+    color: white;
+    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+}
+
+.pagina-link {
+    background: white;
+    color: var(--rosa-principal);
+    border: 2px solid var(--rosa-principal);
+    cursor: pointer;
+}
+
+.pagina-link:hover {
+    background: var(--rosa-principal);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+}
+
+.pagina-link a {
+    color: var(--rosa-principal);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.pagina-link:hover a {
+    color: white;
+}
+
+.pagina-inativa {
+    background: var(--rosa-claro);
+    color: #999;
+    border: 2px solid #ddd;
+}
+
+.botoes-navegacao {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;          /* Espaço maior entre botões */
+    margin-top: 50px;
+    padding: 0 40px;    /* Espaço nas laterais */
+}
+
+.btn-voltar, .btn-avancar {
+    padding: 18px 50px;  /* Botões mais espaçosos */
+    min-width: 200px;
+}
+
+.btn-voltar, .btn-avancar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-voltar {
+    background: white;
+    color: var(--rosa-principal);
+    border: 2px solid var(--rosa-principal);
+}
+
+.btn-voltar:hover {
+    background: var(--rosa-principal);
+    color: white;
+    transform: translateX(-5px);
+    box-shadow: 0 5px 20px rgba(233, 30, 99, 0.3);
+}
+
+.btn-avancar {
+    background: var(--rosa-principal);
+    color: white;
+}
+
+.btn-avancar:hover {
+    background: var(--rosa-escuro);
+    transform: translateX(5px);
+    box-shadow: 0 5px 20px rgba(233, 30, 99, 0.4);
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+    .navegacao-paginas {
+        gap: 8px;
+    }
+    
+    .navegacao-paginas span {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    .botoes-navegacao {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn-voltar, .btn-avancar {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+}
+
+/* BOTÃO MONTAGEM */
+.btn-adicionar-montagem {
+    background: var(--rosa-principal);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 25px;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.btn-adicionar-montagem:hover {
+    background: var(--rosa-escuro);
+    transform: scale(1.02);
+    box-shadow: 0 5px 20px rgba(233, 30, 99, 0.4);
+}
+/* FORÇAR ESPAÇAMENTO DOS BOTÕES */
+.navegacao-paginas {
+    gap: 25px !important;
+}
+
+.navegacao-paginas span {
+    padding: 6px 14px !important;
+    font-size: 12px !important;
+}
+/* BOTÕES DE NAVEGAÇÃO SUPERIOR - Com ID */
+#navegacao-paginas {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 30px !important;
+    margin-bottom: 30px !important;
+}
+
+#navegacao-paginas span {
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+    border-radius: 10px !important;
+}
+
+#navegacao-paginas span.pagina-ativa {
+    background: var(--rosa-principal) !important;
+    color: white !important;
+}
+
+#navegacao-paginas span.pagina-link {
+    background: white !important;
+    border: 2px solid var(--rosa-principal) !important;
+}
+
+#navegacao-paginas span.pagina-inativa {
+    background: var(--rosa-claro) !important;
+    color: #999 !important;
+}
+
+/* Botões de navegação inferior */
+#botoes-navegacao {
+    display: flex !important;
+    justify-content: space-between !important;
+    gap: 30px !important;
+    margin-top: 40px !important;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    #navegacao-paginas {
+        gap: 15px !important;
+    }
+    
+    #navegacao-paginas span {
+        padding: 5px 8px !important;
+        font-size: 10px !important;
+    }
+    
+    #botoes-navegacao {
+        flex-direction: column !important;
+    }
+}
+/* ============================================
+   CARTÕES DE PRODUTOS (Menores)
+   ============================================ */
+#produtos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.produto-card {
+    background: white;
+    border-radius: 10px;
+    padding: 12px;
+    border: 2px solid var(--rosa-borda);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.produto-card:hover {
+    transform: scale(1.03);
+    border-color: var(--rosa-principal);
+    box-shadow: 0 5px 15px rgba(233, 30, 99, 0.2);
+}
+
+.produto-card h4 {
+    font-size: 13px;
+    margin: 0 0 8px 0;
+    color: var(--rosa-escuro);
+}
+
+.produto-card p {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--rosa-principal);
+    margin: 0 0 10px 0;
+}
+
+.produto-card button {
+    background: var(--rosa-principal);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.produto-card button:hover {
+    background: var(--rosa-escuro);
+}
+
+/* ============================================
+   SABORES (Checkboxes com borda e espaçamento)
+   ============================================ */
+#selecao-sabores {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.sabor-checkbox {
+    position: relative;
+    background: white;
+    border: 2px solid var(--rosa-borda);
+    border-radius: 10px;
+    padding: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+
+.sabor-checkbox:hover {
+    border-color: var(--rosa-principal);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.2);
+}
+
+.sabor-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--rosa-principal);
+    cursor: pointer;
+}
+
+.sabor-checkbox label {
+    font-size: 12px;
+    color: #333;
+    cursor: pointer;
+    line-height: 1.3;
+}
+
+/* ============================================
+   RESPONSIVIDADE MOBILE
+   ============================================ */
+@media (max-width: 768px) {
+    #produtos {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 10px;
+    }
+    
+    .produto-card {
+        padding: 10px;
+    }
+    
+    .produto-card h4 {
+        font-size: 11px;
+    }
+    
+    .produto-card p {
+        font-size: 12px;
+    }
+    
+    #selecao-sabores {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .sabor-checkbox {
+        padding: 15px;
+    }
+}
+/* ============================================
+   MODAL CARRINHO - DESKTOP (Ajustes)
+   ============================================ */
+@media (min-width: 769px) {
+    .modal-conteudo {
+        margin: 5% auto !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+    }
+    
+    /* Centraliza melhor o modal */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(3px);
+    }
+    
+    /* Ajusta inputs do modal */
+    #modal-carrinho input,
+    #modal-carrinho select,
+    #modal-carrinho textarea {
+        margin: 10px 0;
+        padding: 10px;
+    }
+    
+    /* Botão enviar mais visível */
+    #modal-carrinho button[onclick="enviarPedido()"] {
+        margin-top: 15px;
+        padding: 12px 20px;
+    }
+}
+/* Ícone do carrinho no botão */
+#btn-carrinho {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--rosa-principal);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+#btn-carrinho:hover {
+    background: var(--rosa-escuro);
+}
+
+#btn-carrinho svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+#btn-carrinho span {
+    margin: 0;
+    padding: 0;
+}
+/* Loading */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--rosa-principal);
+}
+
+.loading::after {
+    content: "⏳ Carregando...";
+    font-size: 16px;
+}
+
+/* Esconder conteúdo enquanto carrega */
+#selecao-sabores:empty {
+    min-height: 200px;
+    background: linear-gradient(90deg, #fce4ec 25%, #f8bbd9 50%, #fce4ec 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 10px;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+/* Loading Safari */
+#selecao-sabores {
+    min-height: 300px;
+}
+/* Transição suave na entrada da página */
+body {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Transição suave nos elementos */
+.produto-card, 
+.sabor-checkbox,
+h2, h3 {
+    animation: slideUp 0.4s ease-out;
+    animation-fill-mode: both;
+}
+
+/* Delay para cada elemento aparecer em sequência */
+.produto-card:nth-child(1), .sabor-checkbox:nth-child(1) { animation-delay: 0.05s; }
+.produto-card:nth-child(2), .sabor-checkbox:nth-child(2) { animation-delay: 0.1s; }
+.produto-card:nth-child(3), .sabor-checkbox:nth-child(3) { animation-delay: 0.15s; }
+.produto-card:nth-child(4), .sabor-checkbox:nth-child(4) { animation-delay: 0.2s; }
+.produto-card:nth-child(5), .sabor-checkbox:nth-child(5) { animation-delay: 0.25s; }
+.produto-card:nth-child(6), .sabor-checkbox:nth-child(6) { animation-delay: 0.3s; }
+.produto-card:nth-child(7), .sabor-checkbox:nth-child(7) { animation-delay: 0.35s; }
+.produto-card:nth-child(8), .sabor-checkbox:nth-child(8) { animation-delay: 0.4s; }
+.produto-card:nth-child(9), .sabor-checkbox:nth-child(9) { animation-delay: 0.45s; }
+.produto-card:nth-child(10), .sabor-checkbox:nth-child(10) { animation-delay: 0.5s; }
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Transição suave nos botões */
+button {
+    transition: all 0.3s ease;
+}
+
+/* Transição suave nos links de navegação */
+#navegacao-paginas a, 
+#navegacao-paginas span {
+    transition: all 0.3s ease;
+}

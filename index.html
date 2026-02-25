@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cento de Docinhos - Chocolates</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="tema-rosa">
+    <header>
+     <button id="btn-carrinho" onclick="abrirCarrinho()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 4h16l-1.5 9h-13z"/>
+    <circle cx="9" cy="20" r="1.5"/>
+    <circle cx="18" cy="20" r="1.5"/>
+    <path d="M6 4L5 2H2"/>
+</svg>
+    Carrinho (<span id="contador-carrinho">0</span>)
+</button>
+    </header>
+
+    <main class="container">
+        <section id="navegacao-paginas">
+            <a href="tradicionais.html" class="pagina-link">1. Tradicionais</a>
+            <a href="classicos.html" class="pagina-link">2. Clássicos</a>
+            <span class="pagina-ativa">3. Chocolates</span>
+            <span class="pagina-inativa">4. Montar Pedido</span>
+        </section>
+
+        <section id="cardapio">
+            <h2>Doces de Chocolate</h2>
+            <div id="produtos"></div>
+        </section>
+
+        <section class="botoes-navegacao">
+            <button class="btn-voltar" onclick="window.location.href='classicos.html'">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M16 5L8 12L16 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Voltar
+            </button>
+            <button class="btn-avancar" onclick="window.location.href='montar.html'">
+                Próxima Página: Montar Pedido
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M8 5L16 12L8 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+        </section>
+    </main>
+
+    <!-- Modal Carrinho -->
+    <div id="modal-carrinho" class="modal">
+        <div class="modal-conteudo">
+            <span class="fechar" onclick="fecharCarrinho()">&times;</span>
+            <h2>Seu Carrinho</h2>
+            <div id="itens-carrinho"></div>
+            <p>Total: R$ <span id="total-carrinho">0.00</span></p>
+            <!-- Adicione isso dentro do modal, depois do total do carrinho -->
+<div id="resumo-frete" style="margin-top: 10px; padding: 10px; background: #f5f5f5; border-radius: 5px;">
+    <p>Frete: <span id="valor-frete-display">R$ 0,00</span></p>
+    <p style="font-size: 18px;"><strong>Total com Frete: <span id="total-com-frete">R$ 0,00</span></strong></p>
+</div>
+            
+            <input type="text" id="nome" placeholder="Nome" required>
+            <input type="text" id="endereco" placeholder="Endereço completo" required>
+            <input type="text" id="numero-casa" placeholder="Número da Casa" required>
+            <input type="text" id="referencia" placeholder="Referência (opcional)">
+            <input type="tel" id="telefone" placeholder="Telefone" required>
+            
+           <label>Tipo:</label>
+<select id="tipo-entrega" required>
+    <option value="retirada"><i class="fa-solid fa-shop"></i> Retirada</option>
+    <option value="entrega"><i class="fa-solid fa-motorcycle"></i> Entrega</option>
+</select>
+            
+            <select id="bairro-frete" style="display: none;">
+                <p>Frete: R$ <span id="valor-frete">0,00</span></p>
+                <option value="">Selecione o bairro</option>
+                <option value="Centro">Centro</option>
+                <option value="Cartom">Cartom</option>
+                <option value="Vila Zezo">Vila Zezo</option>
+                <option value="Tangara">Tangara</option>
+                <option value="Vila Nova">Vila Nova</option>
+                <option value="Saida P/Irati">Saida P/Irati</option>
+                <option value="Morro Das Pedras">Morro Das Pedras</option>
+                <option value="Vila Brasil">Vila Brasil</option>
+                <option value="Parque Industrial">Parque Industrial</option>
+                <option value="Agua Verde">Agua Verde</option>
+                <option value="Brasilia">Brasilia</option>
+                <option value="Outros/ Não Listado">Outros/ Não Listado</option>
+            </select>
+            
+            <label>Forma de Pagamento:</label>
+            <select id="pagamento" required>
+                <option value="PIX">PIX</option>
+                <option value="Cartão">Cartão</option>
+                <option value="Dinheiro">Dinheiro</option>
+            </select>
+            
+            <div id="pix-container" style="display: none;">
+                <p><strong>Pagamento via PIX:</strong></p>
+                <p>Nome: Paolla Myllena Marco</p>
+                <p>Chave PIX: 42984033899 <button onclick="copiarChavePix()">Copiar</button></p>
+                <p>Banco: Bradesco</p>
+            </div>
+            
+            <div id="troco-container" style="display: none;">
+                <label>Precisa de troco?</label>
+                <select id="precisa-troco">
+                    <option value="não">Não</option>
+                    <option value="sim">Sim</option>
+                </select>
+                <input type="number" id="troco-para" placeholder="Troco para: (ex: 50.00)" style="display: none;">
+            </div>
+            
+            <textarea id="observacoes" placeholder="Observações (opcional)" maxlength="300" rows="3"></textarea>
+            
+            <button onclick="enviarPedido()">Enviar Pedido</button>
+        </div>
+    </div>
+
+   <script src="script.js"></script>
+</body>
+</html>
